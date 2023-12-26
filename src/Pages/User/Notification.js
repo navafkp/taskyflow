@@ -1,64 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Header from '../../Components/User/header'
-import { useDispatch, useSelector } from 'react-redux'
-import { getNotification } from '../../Store/notificationSlice'
-import Loading from '../../Components/loading'
-import { setLoading } from '../../Store/loadingSlice'
+
+import Broadcast from '../../Components/Notification/Broadcast'
+import Personal from '../../Components/Notification/Personal'
 
 const Notification = () => {
-    const access = useSelector(state => state.usertoken.access)
-    const workspace = useSelector(state => state.userData.workspace)
-    const dispatch = useDispatch()
-    const allNotifications = useSelector(state => state.notification)
-    const [result, setResult] = useState([])
-    const load = useSelector(state=>state.loading)
-    
+
+  const [selectedTab, setSelectedTab] = useState('boardcast')
+
+  const handleType = (type) => {
+
+    setSelectedTab(type)
+
+  }
 
 
-    useEffect(() => {
-        const fetchNotification = () => {
 
-            if(allNotifications.length === 0){
-                dispatch(setLoading(true))
-                dispatch(getNotification({ access, workspace })).then((response)=>{
-                    dispatch(setLoading(false))
-                })
-            }
-           
-        }
-        fetchNotification();
-        setResult(allNotifications)
-    }, [allNotifications])
+  return (
+    <div className='flex'>
+      <Header />
 
 
-    return (
-        <div className='flex'>
+      <div className='p-7 w-full bg-[#FFFFFF]  '>
+        <div>
+          <h1 className='text-black font-bold text-left text-2xl mb-3 pb-3 border-b border-gray-500'>
+            NOTIFICATION
+          </h1>
+        </div>
+        <div className='flex text-gray-400 bg-[#b278a5]  mt-10 p-5 rounded-lg'>
 
-            <Header />
+          <button onClick={() => handleType('boardcast')} className={` bg-white px-3 py-2 focus:outline-none ${selectedTab === 'boardcast' ? 'text-black' : 'text-red-400'}`}>Braodcast</button>
+          <button onClick={() => handleType('personal')} className={` bg-white  px-3 py-2 focus:outline-none ${selectedTab === 'personal' ? 'text-black' : 'text-red-400'}`}>Personal</button>
 
+        </div>
 
-            <div className='p-7 w-full '>
-
-                <div>
-                    <h1 className='text-app-blue font-bold text-left text-2xl mb-3 pb-3 border-b border-gray-500'> Notification</h1>
-                </div>
-
-                <div className='bg-app-pink mt-10 p-5 rounded-lg'>
-        {load && <Loading/>}
-                    {result.length !== 0 && 
-                    result.map((notification)=>{
-                        return (<div  className='  border p-3 mb-3 bg-white flex flex-row  justify-around rounded-md text-justify'>
-                        <p>{notification.content}</p>
-                        <p className='pt-4'>{new Date(notification.created_at).toLocaleString()}</p>
-                    </div>)
-                    })}
-
-                </div>
-            </div>
+        <div>
+          {selectedTab === 'boardcast' && <Broadcast />}
+          {selectedTab === 'personal' && <Personal />}
+        </div>
+      </div>
 
 
-        </div >
-    )
+
+    </div >
+  )
 }
 
 export default Notification

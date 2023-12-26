@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { initialstate } from "./rootstore";
 import { GetuserDetail } from "../Server/User/userDetail";
 
+// --MIDDLEWARE---
+
 // get user details while logged in
 export const userDetail = createAsyncThunk('user/userDetail', async (access) => {
     const data = await GetuserDetail(access)
-    console.log(data)
     return data
 })
-
 
 const userdataSlice = createSlice({
     name: 'userdata',
@@ -23,7 +23,7 @@ const userdataSlice = createSlice({
                 name: action.payload.name,
                 username: action.payload.name,
                 email: action.payload.email,
-                // designation: action.payload.designation,
+                designation: action.payload.designation,
                 profile_image_base64: action.payload.image,
             })
         },

@@ -1,5 +1,5 @@
 .modal, .overlay {
-    width: 110vw;
+    width: 100vw;
     height: 100vh;
     top: 0;
     left: 0;
@@ -17,7 +17,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
-    background: #B7A3F74D;
+    background: #ffffff;
     padding: 14px 28px;
     border-radius: 3px;
     max-width: 600px;

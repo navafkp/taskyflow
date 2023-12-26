@@ -50,10 +50,12 @@ const UserProfile = () => {
         dispatch(setLoading(true))
         changeDetails(requestData, access)
             .then((response) => {
-                console.log("hi")
+
                 dispatch(setLoading(false))
                 setPopup(response.message);
-                if (response.message === 'user details updated succesfully') {
+
+                if (response.message === 'Updated succesfully') {
+
                     dispatch(updateUser(requestData))
                 }
             }).catch((error) => {
@@ -66,54 +68,73 @@ const UserProfile = () => {
 
             <Header />
 
-            <div className='p-7 w-full'>
+            <div className='p-7 w-full bg-[#FFFFFF]'>
                 <div>
-                    <h1 className='text-2xl text-app-blue font-semibold text-left border-b mb-5 pb-3 border-gray-500'>User Profile</h1>
+                    <h1 className='text-2xl text-black font-semibold text-left border-b mb-5 pb-3
+                     border-gray-500'
+                    >
+                        USER PROFILE
+                    </h1>
                 </div>
-                <div className='flex lg:flex-col-reverse bg-white mx-auto box-border py-8 max-h-max w-[80%]  px-10 rounded-lg relative'>
+                <div className='flex lg:flex-col-reverse  text-white bg-[#b278a5] mx-auto box-border 
+                py-8 max-h-max w-[80%]  px-10 rounded-lg relative'
+                >
                     {load && <Loading />}
                     <div className=' w-9/12 lg:w-full capitalize'>
 
 
-                        <div className='flex space-x-3   p-2 '>
-                            <h3 className=' font-semibold'>Name:</h3>
-                            <input className=" bg-app-pink rounded-md w-full border px-3 py-1" value={data?.name} onChange={handleChange} type='text' name='name' />
+                        <div className='flex justify-between space-x-3   p-2 '>
+                            <h3 className=' font-semibold  '>Name:</h3>
+                            <input
+                                className=" text-black rounded-md w-[50%] border px-3 py-1"
+                                value={data?.name} onChange={handleChange} type='text' name='name'
+                            />
                         </div>
-                        <div className='flex space-x-3  p-2'>
+                        <div className='flex justify-between  space-x-3  p-2'>
                             <h3 className=' font-semibold'>Username:</h3>
-                            <input className="bg-app-pink rounded-md w-full border px-3 py-1" value={data.username} onChange={handleChange} type='text' name='username' />
+                            <input className="text-black rounded-md w-[50%] border px-3 py-1"
+                                value={data.username} onChange={handleChange} type='text' name='username'
+                            />
                         </div>
-                        <div className='flex space-x-3   p-2'>
+                        <div className='flex justify-between  space-x-3   p-2'>
                             <h3 className=' font-semibold'>email:</h3>
 
-                            <input className=" bg-app-pink rounded-md w-full border px-3 py-1" value={data.email} onChange={handleChange} type='email' name='email' />
+                            <input className=" text-black rounded-md w-[50%] border px-3 py-1"
+                                value={data.email} onChange={handleChange} type='email' name='email'
+                            />
                         </div>
-                        <div className='flex space-x-3  p-2'>
+                        <div className='flex justify-between  space-x-3  p-2'>
                             <h3 className=' font-semibold'>Role:</h3>
-                            <p>{userData?.role} </p>
+                            <p className='w-[50%]'>{userData?.role} </p>
                         </div>
-                        <div className='flex space-x-3  p-2'>
+                        <div className='flex justify-between space-x-3  p-2'>
                             <h3 className=' font-semibold'>Joined On:</h3>
-                            <p>{new Date(userData?.date_joined).toLocaleString()} </p>
+                            <p className='w-[50%]'>{new Date(userData?.date_joined).toLocaleString()} </p>
                         </div>
 
-                        {userData?.role === 'manager' ? (<div className='flex space-x-3  p-2'>
+                        {userData?.role === 'manager' ? (<div className='flex justify-between  space-x-3  p-2'>
                             <h3 className=' font-semibold'>Designation:</h3>
-                            <input className=" bg-app-pink rounded-md w-full border px-3 py-1" value={data.designation} onChange={handleChange} type='text' name='designation' />
-                        </div>) : (<div className='flex space-x-3  p-2'>
+                            <input
+                                className=" text-black rounded-md w-[50%] border px-3 py-1"
+                                value={data.designation} onChange={handleChange} type='text' name='designation'
+                            />
+
+                        </div>) : (<div className='flex justify-between  space-x-3  p-2'>
                             <h3 className=' font-semibold'>Designation:</h3>
-                            <p>{data.designation} </p>
+                            <p className='w-[50%]' >{data.designation} </p>
                         </div>)}
 
-
-
-
-                        <div className='flex space-x-3  p-2'>
+                        <div className='flex justify-between  space-x-3  p-2'>
                             <h3 className=' font-semibold'>Workspace:</h3>
-                            <p>{userData?.workspace} </p>
+                            <p className='w-[50%]'>{userData?.workspace} </p>
                         </div>
-                        <button className='bg-app-blue text-black font-bold w-full my-5 rounded p-2' onClick={handleAllChange} >Save Changes</button><br></br>
-                        <p className='text-white text-center'> {popup}</p>
+
+                        <button
+                            className='bg-[#D7CDCC] text-black font-bold w-full my-3 rounded p-2'
+                            onClick={handleAllChange} >Save Changes
+                        </button>
+
+                        <p className='text-app-green text-center'> {popup}</p>
                     </div>
                     {/* image */}
                     <div className=' w-3/12 lg:m-auto lg:mb-2'>
@@ -139,12 +160,8 @@ const UserProfile = () => {
                             <div
                                 className='rounded-full overflow-hidden '
                                 style={{
-                                    height: "125px",
-                                    width: "125px",
-
-                                    borderWidth: '2px',
-
-
+                                    height: "130px",
+                                    width: "130px",
                                 }}
                                 onClick={() => imageUploader.current.click()}
                             >
@@ -161,8 +178,6 @@ const UserProfile = () => {
                                         alt="Profile"
                                     />)
                                 }
-
-
                             </div>
                             <p className='text-xs'> Click to upload Image</p>
                         </div>

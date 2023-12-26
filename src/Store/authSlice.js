@@ -5,10 +5,11 @@ import { userLogin } from "../Server/User/userAuth";
 import { loginAdmin } from '../Server/Admin/adminAuth'
 import { adminAccess } from "../Server/Admin/adminAuth";
 
+// -----MIDDLEWARES---
+
 // user
 export const loginUser = createAsyncThunk('user/loginUser', async ({ email, password }) => {
     const authdata = await userLogin(email, password);
-    console.log(authdata, 'datatata' )
     return authdata
 });
 // get access from refresh
@@ -35,7 +36,6 @@ const authSlice = createSlice({
     reducers: {
         Logout: (state) => {
             return initialstate.usertoken;
-
         },
         Alogout: (state) => {
             return initialstate.usertoken;
@@ -50,7 +50,7 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
-                console.log(action.payload, 'yyyyyy')
+
                 if (!action.payload.error) {
                     return {
                         access: action.payload.access,
@@ -70,7 +70,6 @@ const authSlice = createSlice({
                         type: 'user',
                         is_authenticated: true,
                         registerSuccess: null,
-                       
                     }
                 }
             })
@@ -82,9 +81,7 @@ const authSlice = createSlice({
                         refresh: action.payload.refresh,
                         type: 'admin',
                         is_authenticated: true,
-                       
                     }
-
                 }
             })
             .addCase(GetAccessAdmin.fulfilled, (state, action) => {
@@ -95,7 +92,6 @@ const authSlice = createSlice({
                         refresh: action.payload.refresh,
                         type: 'admin',
                         is_authenticated: true,
-                       
                     }
                 }
             })
