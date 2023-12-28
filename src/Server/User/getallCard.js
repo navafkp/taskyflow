@@ -39,13 +39,15 @@ export const dragCardUpdate = (destination, draggableId, access) => {
 }
 
 // creating a new card
-export const cardCreate = (access, id, title, description, maxNum = 1, emails = null) => {
+export const cardCreate = (access, id, title, description, maxNum = 1, emails = null, selectedColor, priority) => {
     return axios.post(`${API}/card/`, {
         'board': id,
         'title': title,
         'description': description,
         'max_members': maxNum,
-        'assignee': emails
+        'assignee': emails,
+        'color': selectedColor,
+        'priority':priority
     },
         {
             headers: {
@@ -53,6 +55,7 @@ export const cardCreate = (access, id, title, description, maxNum = 1, emails = 
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
+            console.log(response.data, 'response.dataresponse.dataresponse.dataresponse.dataresponse.data')
             return response.data
         }).catch((error) => {
             return error

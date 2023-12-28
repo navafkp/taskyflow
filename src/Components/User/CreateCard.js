@@ -10,6 +10,8 @@ const CreateCard = ({ closeModal, id }) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [maxNum, setMaxNum] = useState(null)
+    const [selectedColor, setSelectedColor] = useState()
+    const [priority, setPriority] = useState()
     const access = useSelector(state => state.usertoken.access)
     const [emails, setEmails] = React.useState([]);
     const [focused, setFocused] = React.useState(false);
@@ -29,15 +31,27 @@ const CreateCard = ({ closeModal, id }) => {
         }
         singleBoard()
     }, [allboard])
+   
+
+const maxmemberChange = (e) =>{
+    if (e.target.value > '0') {
+        setMaxNum(e.target.value)
+        
+    } else {
+        setMaxNum(0)
+
+    }
+}
+
 
     // creating a new cards based on given details
     const handleCreate = (e) => {
         e.preventDefault()
-        if (access && id && title && description && maxNum) {
-            dispatch(newCardCreate({ access, id, title, description, maxNum, emails })).then((res) => {
+        if (access && id && title && description && selectedColor && priority) {
+            dispatch(newCardCreate({ access, id, title, description, maxNum, emails, selectedColor, priority })).then((res) => {
                 closeModal()
             })
-        } else{
+        } else {
             setError('Please fill all details required')
 
         }
@@ -58,10 +72,25 @@ const CreateCard = ({ closeModal, id }) => {
                             <input value={description} onChange={(e) => setDescription(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" name='description' type='text' placeholder='description' />
                         </div>
 
+                        <div className='mb-2'>
+                            <select value={priority} onChange={(e) => setPriority(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" required>
+                                <option  className='rounded-lg'>Priority</option>
+                                <option value='high' className='rounded-lg'>High</option>
+                                <option value='moderate' className='rounded-lg'>Moderate</option>
+                                <option value='low' className='rounded-lg'>Low</option>
+                            </select>
+                        </div>
+
+                        <div className='mb-2 '>
+                            <label className='pr-1'>Pick a color</label>
+                            <input value={selectedColor}
+                                onChange={(e) => setSelectedColor(e.target.value)} className="shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" name='selectedColor' type='color' placeholder='select a color' required/>
+                        </div>
+
                         {boardData && boardData?.visibility === 'public' && (
                             <>
                                 <div className='mb-2 '>
-                                    <input value={maxNum} onChange={(e) => setMaxNum(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" name='maximum member' type='number' placeholder='maximum member' />
+                                    <input value={maxNum} onChange={maxmemberChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" name='maximum member' type='number' placeholder='maximum member' />
                                 </div>
                                 {/* user input emails for memebers */}
                                 <ReactMultiEmail

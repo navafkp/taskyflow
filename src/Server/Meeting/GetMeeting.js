@@ -2,7 +2,7 @@ import axios from 'axios'
 const API = process.env.REACT_APP_BASE_URL;
 
 export const getMeetings = (access, workspace) => {
-    return axios.get(`http://127.0.0.1:9000/api/meeting/`,
+    return axios.get(`${API}/meeting/`,
         {
             params: {
                 workspace: workspace

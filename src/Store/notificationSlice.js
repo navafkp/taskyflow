@@ -1,23 +1,48 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { initialstate } from "./rootstore";
-import { getAllNotification } from "../Server/User/getNotification";
+import { gettingBroadcastNotification } from "../Server/User/BroadcastNotification";
+import { gettingPersonalNotification } from "../Server/User/gettingPersonalNotification";
 
 // -----MIDDLEWARES---
 // get all notification
-export const getNotification = createAsyncThunk('user/notication', ({ access, workspace }) => {
+export const getBroadcastNotification = createAsyncThunk('user/getBroadcastNotification', ({ access, workspace }) => {
     console.log("I am middleware")
-    const response = getAllNotification(access, workspace)
+    const response = gettingBroadcastNotification(access, workspace)
     console.log(response, 'middleware')
     return response
 })
+
+
+//  get all notification
+export const getPersonalNotification = createAsyncThunk('user/getPersonalNotification', ({ access, workspace, email }) => {
+    console.log("I am middleware")
+    const response = gettingPersonalNotification(access, workspace, email)
+    console.log(response, 'middleware')
+    return response
+})
+
 
 const notificationSlice = createSlice({
     name: 'notification',
     initialState: initialstate.notifications,
     extraReducers: (builder) => {
         builder
-            .addCase(getNotification.fulfilled, (state, action) => {
-                return action.payload
+            .addCase(getBroadcastNotification.fulfilled, (state, action) => {
+                return {
+                    ...state, broadcast: action.payload
+                }
+            })
+            .addCase(getPersonalNotification.fulfilled, (state, action) => {
+                if (action.payload.message === 'No notifications found') {
+                    return {
+                        ...state, personal: []
+                    }
+                } else {
+                    return {
+                        ...state, personal: action.payload
+                    }
+                }
+
             })
     }
 })

@@ -8,11 +8,11 @@ const ZvideoRoom = () => {
     const userData = useSelector(state => state.userData)
     const navigate = useNavigate()
     const { roomID } = useParams()
-
+    const appID = parseInt(process.env.REACT_APP_ZEO_APP_ID);
+    const serverSecret = process.env.REACT_APP_ZEO_SERVER_SECRET
+ 
     const meetingUI = async (element) => {
         if (userData) {
-            const appID = process.env.APPID;
-            const serverSecret = process.env.SERVER_SECRET;
             const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
                 appID,
                 serverSecret,

@@ -10,23 +10,31 @@ const CreateMeeting = ({ closeModal }) => {
     const [description, setDescription] = useState()
     const [startingtime, setStartingtime] = useState()
     const [duration, setDuration] = useState()
-    const [dateTime, setDateTime] =  useState()
+    const [dateTime, setDateTime] = useState()
+    const [error, setError] = useState('')
 
     const handleStartingTime = (e) => {
-        const time = e.target.value+":00"
+        const time = e.target.value + ":00"
         console.log(time)
         setDateTime(time)
-        const timestamp = new Date(time).getTime()/1000;
-        setStartingtime(timestamp)  
+        const timestamp = new Date(time).getTime() / 1000;
+        setStartingtime(timestamp)
     }
 
     const dispatch = useDispatch()
     const handleMeetingCreation = (e) => {
-        e.preventDefault()
-        createMeetAxios(access, id, workspace, roomID, description, startingtime, duration).then((response) => {
-            dispatch(updateMeetingData(response))
-            closeModal()
-        })
+        if (roomID && description && startingtime && duration) {
+            e.preventDefault()
+            createMeetAxios(access, id, workspace, roomID, description, startingtime, duration).then((response) => {
+                dispatch(updateMeetingData(response))
+                closeModal()
+            })
+        } else{
+            setError('Please fill all details')
+
+        }
+
+
     }
 
     return (
@@ -45,7 +53,7 @@ const CreateMeeting = ({ closeModal }) => {
                                 />
                             </div>
                             <div className="mb-2">
-                                <input
+                                <input required
                                     value={description} onChange={(e) => setDescription(e.target.value)}
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
                             leading-tight focus:outline-none focus:shadow-outline  mt-2" id="description"
@@ -62,6 +70,7 @@ const CreateMeeting = ({ closeModal }) => {
                                     id="datetime"
                                     type="datetime-local"
                                     placeholder="Date and Time"
+                                    required
                                 />
                             </div>
                             <div className="mb-2">
@@ -73,6 +82,7 @@ const CreateMeeting = ({ closeModal }) => {
                                 />
                             </div>
                             <button onClick={handleMeetingCreation} className='bg-red-600 text-white rounded px-2 py-1'>CREATE MEETING</button>
+                        <p>{error}</p>
                         </form>
                     </div>
                 </div>

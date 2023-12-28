@@ -12,7 +12,7 @@ export const createMeetAxios = (access, id, workspace, roomID, description, star
         'duration':duration,
         
     };
-    return axios.post(`http://127.0.0.1:9000/api/meeting/create-meeting/`,
+    return axios.post(`${API}/meeting/create-meeting/`,
         requestData,
         {
             headers: {

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { initialstate } from "./rootstore";
 import { boardCreateAxios, getBoads } from "../Server/User/getallBoard";
 
+
 // -----MIDDLEWARES---
 
 // create board
@@ -16,6 +17,9 @@ export const getAllBoads = createAsyncThunk('user/getAllBoads', async ({ access,
     return res
 })
 
+
+
+
 const boardSlice = createSlice({
     name: 'boards',
     initialState: initialstate.allboards,
@@ -24,6 +28,9 @@ const boardSlice = createSlice({
             return (
                 [...state, action.payload]
             )
+        },
+        updateBoarddDeletion: (state, action) => {
+            return state.filter(board => board.id !== action.payload)
         }
     },
     extraReducers: (builder) => {
@@ -39,5 +46,5 @@ const boardSlice = createSlice({
     }
 })
 
-export const { BoardUpdate } = boardSlice.actions;
+export const { BoardUpdate, updateBoarddDeletion } = boardSlice.actions;
 export default boardSlice.reducer

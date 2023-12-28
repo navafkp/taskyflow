@@ -2,8 +2,9 @@ import axios from "axios";
 
 const API = process.env.REACT_APP_BASE_URL;
 
-export const addNewColumn = (access, boardId, columnTitle) => {
+export const addNewColumn = (access, boardId, columnTitle, newPosition) => {
     const requestData = {
+        position: newPosition,
         boardId:boardId,
         title: columnTitle,
     };

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../Store/loadingSlice'
-import { getNotification } from '../../Store/notificationSlice'
 import Loading from '../loading'
+import { getBroadcastNotification } from '../../Store/notificationSlice'
 
 const Broadcast = () => {
   const access = useSelector(state => state.usertoken.access)
   const workspace = useSelector(state => state.userData.workspace)
   const dispatch = useDispatch()
-  const allNotifications = useSelector(state => state.notification)
+  const allNotifications = useSelector(state => state.notification.broadcast)
   const [result, setResult] = useState([])
   const load = useSelector(state => state.loading)
 
@@ -17,8 +17,7 @@ const Broadcast = () => {
     const fetchNotification = async () => {
       try {
         dispatch(setLoading(true));
-        console.log("-----")
-        await dispatch(getNotification({ access, workspace }));
+        await dispatch(getBroadcastNotification({ access, workspace }));
         dispatch(setLoading(false));
       } catch (error) {
         // Handle error if needed
@@ -35,14 +34,11 @@ const Broadcast = () => {
     }
   }, [allNotifications]);
 
-console.log(result, ']]]]]]]]]]]]]]]')
     return (
         <>
-        
             {load && <Loading />}
-          {result.length > 0 &&
+          {result?.length > 0 &&
             result.map((notification) => {
-                console.log("sdsdsdsd")
               return (
                 <div
                   className='bg-[#FFFFFF]  border p-3 mb-3 flex flex-row  justify-around rounded-md text-justify'
@@ -55,10 +51,6 @@ console.log(result, ']]]]]]]]]]]]]]]')
                   </p>
                 </div>)
             })}
-           
-
-
-
         </>
 
     )

@@ -24,7 +24,7 @@ const Header = () => {
   }
 
   return (
-    <div className={`flex  ${showNav && 'md:w-[100vw]  md:h-[100vh] md:bg-black/50 md:z-50 md:absolute'}`}>
+    <div className={`flex h-full  ${showNav && 'md:w-[100vw]  md:h-[100vh] md:bg-black/50 md:z-50 md:absolute'}`}>
       
       {/* Desktop */}
       <div className=' md:hidden'>

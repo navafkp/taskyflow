@@ -32,7 +32,7 @@ const Kanban = () => {
   const dispatch = useDispatch()
   const boardId = board.split('+')[1]
 
- 
+
 
 
   // choosing specific board from all board
@@ -46,7 +46,7 @@ const Kanban = () => {
       }
     }
     thisBoard()
-  }, [allcard])
+  }, [])
 
 
   // redux data - columns and cards added to state data
@@ -61,9 +61,12 @@ const Kanban = () => {
 
   }, [allcard, allcolumns])
 
+
+
+
   // getting all columns and cards, also handle loading
   useEffect(() => {
-    if (access && board && allcard?.cards?.length == 0) {
+    if (access && board) {
       const board_slug = board.split('+')[0]
       dispatch(setLoading(true))
       dispatch(getAllColumns({ access, board_slug })).then((res) => {
@@ -72,10 +75,11 @@ const Kanban = () => {
         })
       })
     }
-  }, [access, allcard?.cards])
+  }, [access])
 
   // handling card dragging
   const onDragEnd = async (result) => {
+    console.log(result)
     const { destination, source, draggableId } = result;
     if (!destination || source.droppableId === destination.droppableId) return;   // If there is no destination or the drag is cancelled, return
     // Create a copy of columnsData and cardsData
@@ -103,122 +107,145 @@ const Kanban = () => {
       if (access) {
         const droppableId = destination.droppableId
         dispatch(cardDragUpdate({ droppableId, draggableId, access }))
-        
+
+      }
     }
   }
-}
-
-// if any changes in state cards data, updating redux to see immediate changes in UI
-// useEffect(() => {
-//   console.log("why memmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
-//   dispatch(cardsUpdate(cardsData));
-// }, [cardsData, dispatch]);
-
-const handleFilter = async (e) => {
-  const card_id = e.target.value
-  const data = allcard?.cards?.filter((card) => card.id == card_id)
-  setCardsData(data)
-}
-
-// adding more columns
-const addColumns = (e) => {
-  e.preventDefault()
-  dispatch(addingColumns({ access, boardId, columnTitle }))
-}
-
-
-return (
-  <div className='flex'>
-    <Header />
-    <div className="p-7 w-full overflow-hidden  bg-[#FFFF] ">
-      <div>
-        <h1 className='text-2xl text-black font-semibold text-left border-b uppercase mb-5 pb-3'>
-          {board.split('+')[0]}
-        </h1>
-      </div>
-      <DragDropContext onDragEnd={onDragEnd} >
-
-        <div className='flex justify-between'>
-          <h2 className='p-3 uppercase font-bold'>{board.split('+')[0]}</h2>
-          {boardData && user && boardData?.visibility === 'private' && (
-            user?.id.toString() === boardData?.user_id.toString() && (
-              <button onClick={() => setShowForm(true)}
-                className='bg-[#1D1E2C] text-sm  text-white text-center  px-3 mb-2 rounded-lg '>
-                NEW CARD<span className='font-bold text-lg'>+</span>
-              </button>
-            )
-          )}
-
-          {boardData && user && boardData?.visibility === 'public' && user?.role === 'manager' && (
-            <>
-              <button onClick={() => setShowForm(true)}
-                className='bg-[#1D1E2C] text-sm text-white text-center px-3 mb-2 rounded-lg'>
-                NEW CARD<span className='font-bold text-lg'>+</span>
-              </button>
-
-              <select
-                className='bg-[#D7CDCC]  rounded-lg p-2 font-bold text-sm'
-                onChange={(e) => {
-                  setSelectedMember(e.target.value);
-                  handleFilter(e);
-
-                }}
-                value={selectedMember}
-
-              >
-                <option value="">Filter by member</option>
-                {memberData?.length > 0 && memberData.map((user) =>
-                  <option value={user.card} key={user.id}>{user.user}</option>
-                )}
-
-              </select>
 
 
 
+  useEffect(() => {
+    // const cardEmail = e.target.value
+
+    if (allcard && selectedMember) {
+      if (selectedMember === 'all') {
+        setCardsData(allcard?.cards)
+      } else {
+        const data = allcard?.assignee?.filter((user) => user.user == selectedMember)
+
+        const card = data?.map((assignee) => {
+
+          return allcard?.cards.find((card) => assignee.card == card.id)
+        })
+
+        setCardsData(card)
+      }
+    }
+
+  }, [selectedMember, allcard])
 
 
-            </>
-          )}
+  // adding more columns
+  const addColumns = (e) => {
+    e.preventDefault()
 
+    const position = allcolumns?.reduce((a, b) => parseInt(a.position) > parseInt(b.position) ? a.position : b.position)
+
+    const newPosition = parseInt(position) + parseInt(1)
+    dispatch(addingColumns({ access, boardId, columnTitle, newPosition }))
+  }
+
+
+  return (
+    <div className='flex'>
+      <Header />
+      <div className="p-7 w-full overflow-hidden  bg-[#FFFF] ">
+        <div>
+          <h1 className='text-2xl text-black font-semibold text-left border-b uppercase mb-5 pb-3'>
+            {board.split('+')[0]}
+          </h1>
         </div>
+        <DragDropContext onDragEnd={onDragEnd} >
 
-        <div className='flex  rounded-lg p-3 w-full h-[100%] m-auto'>
-          {load && <Loading />}
-          {columnsData?.length > 0 && columnsData?.map((column) => {
-            const matchingCards = cardsData?.length > 0 && cardsData?.filter(
-              card => {
-                return board.split('+')[1] == card.board && column.position === card.column;
-              }
-            )
+          <div className='flex justify-between'>
+            <h2 className='p-3 uppercase font-bold'>{board.split('+')[0]}</h2>
+            {boardData && user && boardData?.visibility === 'private' && (
+              user?.id.toString() === boardData?.user_id.toString() && (
+                <button onClick={() => setShowForm(true)}
+                  className='bg-[#1D1E2C] text-sm  text-white text-center  px-3 mb-2 rounded-lg '>
+                  NEW CARD<span className='font-bold text-lg'>+</span>
+                </button>
+              )
+            )}
 
-            return (
-              <Columns key={column.position}
-                title={column.title}
-                tasks={matchingCards}
-                id={column.position}
-              />
-            )
-          })
-          }
+            {boardData && user && boardData?.visibility === 'public' && user?.role === 'manager' && (
+              <>
+                <button onClick={() => setShowForm(true)}
+                  className='bg-[#1D1E2C] text-sm text-white text-center px-3 mb-2 rounded-lg'>
+                  NEW CARD<span className='font-bold text-lg'>+</span>
+                </button>
 
-          <div className='m-3'>
-            <button onClick={(e) => setShowColumn(!showColumn)} className=' text-center  font-bold bg-[#EEF2F5] py-3 w-[200px] uppercase rounded-xl' >Add More Colums+</button>
-            {showColumn && (<div className='flex relative'>
-              <input
-                className='px-2 py-1 border mt-1 ' name='column' placeholder='Enter the column name'
-                value={columnTitle} onChange={(e) => setcolumnTitle(e.target.value)}
-              />
-              <IoCheckmarkDoneCircle onClick={addColumns} color='green' size={'20px'} className='absolute right-1 top-3' />
-            </div>)}
+                <select
+                  className='bg-[#D7CDCC]  rounded-lg p-2 font-bold text-sm'
+                  onChange={(e) => {
+                    setSelectedMember(e.target.value);
+                    // handleFilter(e);
+
+                  }}
+                  value={selectedMember}
+
+                >
+                  <option value="all">Filter by member</option>
+                  {memberData?.length > 0 && (
+                    <>
+                      {Array.from(new Set(memberData.map((user) => user.user))).map((uniqueUser) => (
+                        <option value={uniqueUser} key={uniqueUser}>
+                          {uniqueUser}
+                        </option>
+                      ))}
+                    </>
+                  )}
+
+                </select>
+
+
+
+
+
+
+              </>
+            )}
+
           </div>
-        </div>
 
-        {showForm && <CreateCard id={board.split('+')[1]} closeModal={() => setShowForm(false)} />}
+         <div className='flex overflow-auto rounded-lg p-3 w-full h-[100%] m-auto'>
+            {load && <Loading />}
+            {columnsData?.length > 0 && columnsData?.map((column) => {
+              const matchingCards = cardsData?.length > 0 && cardsData?.filter(
+                card => {
+                  return board.split('+')[1] == card.board && column.position === card.column;
+                }
+              )
 
-      </DragDropContext>
+              return (
+                <Columns key={column.position}
+                  columnTitle={column.title}
+                  tasks={matchingCards}
+                  columnid={column.position}
+                  boardId={board.split('+')[1]}
+                />
+              )
+            })
+            }
+
+            <div className='m-3'>
+              <button onClick={(e) => setShowColumn(!showColumn)} className=' text-center  font-bold bg-[#EEF2F5] py-3 w-[200px] uppercase rounded-xl' >Add More Colums+</button>
+              {showColumn && (<div className='flex relative'>
+                <input
+                  className='px-2 py-1 border mt-1 ' name='column' placeholder='Enter the column name'
+                  value={columnTitle} onChange={(e) => setcolumnTitle(e.target.value)}
+                />
+                <IoCheckmarkDoneCircle onClick={addColumns} color='green' size={'20px'} className='absolute right-1 top-3' />
+              </div>)}
+            </div>
+          </div>
+
+          {showForm && <CreateCard id={board.split('+')[1]} closeModal={() => setShowForm(false)} />}
+
+        </DragDropContext>
+      </div >
     </div >
-  </div >
-)
+  )
 }
 
 export default Kanban

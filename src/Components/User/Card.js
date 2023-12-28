@@ -4,17 +4,12 @@ import OneCard from './OneCard';
 
 const Card = ({ task, index }) => {
     const [showModal, setShowModal] = useState(false)
-    const colors = ['#78D1FF', '#FFD700', '#FF6347'];
-
-    const randomColor = colors[Math.floor(Math.random() * colors.length)]; // Randomly choose a color from the array
-    const style = {
-        backgroundColor: `${randomColor}33`, // Adding alpha value for transparency
-    };
+    console.log(task, 'tasktasktasktasktasktask')
 
     return (
         <div>
             {/* Creating Draggable cards */}
-            <Draggable draggableId={`${task.id}`} key={task.id} index={index}>  
+            <Draggable draggableId={`${task.id}`} key={task.id} index={index}>
                 {(provided, snapshot) => (
                     <div
                         {...provided.draggableProps}
@@ -24,10 +19,13 @@ const Card = ({ task, index }) => {
                     >
                         {/* cards details here and more info modal when click the event */}
                         <div
-                            onClick={() => setShowModal(true)} 
-                            style={style}
-                            className='h-32  uppercase rounded-xl px-4 py-7 text-sm m-3'>
+                            onClick={() => setShowModal(true)}
+                            style={{ backgroundColor: task.color }}
+                            // className={`h-32 ${task.color? `bg-${task.color}`: ''} uppercase rounded-xl px-4 py-7 text-sm m-3`}>
+                            className={` h-32 uppercase rounded-xl px-4 py-7 text-sm m-3`}>
+                            <p className=' mb-3 w-fit bg-green-500 rounded-e-xl  lowercase px-1 text-sm font-thin  text-white '>{task.priority}</p>
                             <h3>{task.title}</h3>
+
                             {new Date(task.created_at).toLocaleDateString()}
                         </div>
 

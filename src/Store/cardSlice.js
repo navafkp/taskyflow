@@ -15,8 +15,9 @@ export const getAllCards = createAsyncThunk('user/getAllCards', async ({ access,
 })
 
 // create a new card
-export const newCardCreate = createAsyncThunk('user/newCardCreate', async ({ access, id, title, description, maxNum, emails }) => {
-    const response = await cardCreate(access, id, title, description, maxNum, emails)
+export const newCardCreate = createAsyncThunk('user/newCardCreate', async ({ access, id, title, description, maxNum, emails , selectedColor, priority}) => {
+    const response = await cardCreate(access, id, title, description, maxNum, emails, selectedColor, priority)
+    console.log(response, 'i am middlware')
     return response
 })
 
@@ -24,7 +25,7 @@ export const newCardCreate = createAsyncThunk('user/newCardCreate', async ({ acc
 // drag card update
 export const cardDragUpdate = createAsyncThunk('user/cardDragUpdate', async ({  droppableId, draggableId, access }) => {
     const response = await dragCardUpdate( droppableId, draggableId, access)
-    console.log(response, 'middlatere')
+    console.log(response, 'middlatere0909090909090909')
     return response
 })
 
@@ -87,15 +88,15 @@ const cardSlice = createSlice({
             .addCase(getAllCards.fulfilled, (state, action) => {
                 return (
                     {
-                        ...state, cards: action.payload.card.length === 0 ? null : action.payload.card,
-                        assignee: action.payload.card.length === 0 ? null : action.payload.assignee,
+                        ...state, cards: action.payload.card?.length === 0 ? null : action.payload.card,
+                        assignee: action.payload.card?.length === 0 ? null : action.payload.assignee,
                     }
                 )
             })
             .addCase(newCardCreate.fulfilled, (state, action) => {
-                const lastAssignee = JSON.parse(action.payload.assignee);
+                // const lastAssignee = JSON.parse(action.payload.assignee);
                 state.cards = state.cards === null ? [action.payload.card] : [...state.cards, action.payload.card];
-                state.assignee = state.assignee === null ? [...lastAssignee] : [...state.assignee, ...lastAssignee];
+                state.assignee = state.assignee === null ? [...action.payload.assignee] : [...state.assignee, ...action.payload.assignee];
             })
             .addCase(addComment.fulfilled, (state, action) => {
                 return (

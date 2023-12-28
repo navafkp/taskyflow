@@ -12,8 +12,8 @@ export const getAllColumns = createAsyncThunk('user/getAllColumns', async ({ acc
 })
 
 // add a new columns
-export const addingColumns = createAsyncThunk('user/addingColumns', async ({ access, boardId, columnTitle }) => {
-    const response = await addNewColumn(access, boardId, columnTitle)
+export const addingColumns = createAsyncThunk('user/addingColumns', async ({ access, boardId, columnTitle, newPosition}) => {
+    const response = await addNewColumn(access, boardId, columnTitle, newPosition)
     return response
 })
 

@@ -28,7 +28,7 @@ const CreateBoard = ({ closeModal }) => {
 
     return (
 
-        <div className='absolute top-16 right-44 lg:right-24 xl:right-32 md:h-[80%] md:right-36 sm:right-10 bg-app-bg rounded-lg w-[60%] xl:w-[50%] sm:w-[80%]'>
+        <div className='absolute top-16 right-44 lg:right-24 xl:right-32  md:right-36 sm:right-10 bg-app-bg rounded-lg w-[60%] xl:w-[50%] sm:w-[80%]'>
             <div className='overlay'>
                 <div className='modal-content !rounded-lg '>
                     <button className='bg-[#1D1E2C]  ml-auto text-white w-[20px] h-[20px] flex justify-center items-center mt-4 rounded-full' onClick={closeModal}> x</button>

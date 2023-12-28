@@ -13,9 +13,15 @@ export const initialstate = {
     users: [],
 
     isLoading: false,
-    notifications: [],
+
     allboards: [],
     columns: [],
+
+    // personal and public notifications
+    notifications: {
+        broadcast: [],
+        personal: [],
+    },
 
     //  cards and assignee data
     cardData: {
@@ -25,6 +31,6 @@ export const initialstate = {
 
     },
 
-    meetingData : [],
- 
+    meetingData: [],
+
 }

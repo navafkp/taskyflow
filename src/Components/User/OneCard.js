@@ -5,8 +5,7 @@ import { removeAssignee } from '../../Server/User/RemoveAssignee';
 import { AssigneeInvite, addComment, assigneeUpdate, cardEditableUpdate, getAllComment, updateCardDeleteion } from '../../Store/cardSlice';
 import { MdModeEdit } from "react-icons/md";
 import { CardDelete } from '../../Server/User/CardDelete';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
 
 const OneCard = ({ task, closeModal }) => {
     const access = useSelector(state => state.usertoken?.access)
@@ -26,6 +25,8 @@ const OneCard = ({ task, closeModal }) => {
     const dispatch = useDispatch()
     const card_id = task?.id
 
+
+    
     // collecing assignees data from redux based on the card
     useEffect(() => {
         const asigneeSet = () => {
@@ -102,7 +103,7 @@ const OneCard = ({ task, closeModal }) => {
     }
 
     const handleMaxMemberOnChange = (e) => {
-        if (parseInt(e.target.value) < taskAssignee.length) {
+        if (parseInt(e.target.value) < taskAssignee?.length) {
             setError('maximum member cannot go below assignee count')
         }
         else if (e.target.value > '0') {
@@ -144,8 +145,8 @@ const OneCard = ({ task, closeModal }) => {
     // invite - not completed
     const handleInviteSubmit = (e) => {
         e.preventDefault()
-        const size = maxMembers - taskAssignee.length
-        if (emails.length > size) {
+        const size = maxMembers - taskAssignee?.length
+        if (emails?.length > size) {
             setError('assignee exceed the maximum member limit')
         } else {
             setError('')
@@ -168,7 +169,7 @@ const OneCard = ({ task, closeModal }) => {
     return (
         <div className='absolute !w-[100%]  bg-app-bg rounded-lg'>
             <div className='overlay  flex justify-center'>
-                <div className=' !rounded-3xl w-[60%] sm:w-[90%]  bg-[#b278a5] text-center  mt-10 overflow-hidden '>
+                <div className=' h-max !rounded-3xl w-[60%] sm:w-[90%]  bg-[#b278a5] text-center  mt-1 overflow-hidden '>
                     <form>
 
 
@@ -193,8 +194,8 @@ const OneCard = ({ task, closeModal }) => {
                             <button className='bg-[#0c0c0f] text-white w-[20px] h-[20px] flex justify-center  items-center rounded-full' onClick={closeModal}> x</button>
                         </div>
                         {/* bootsrap col */}
-                        <Row xs={1} lg={2} className='rounded-lg px-4 pb-5 pt-4 bg-[#EEF2F5] h-full'>
-                            <Col className=' text-left sm:mb-3'>
+                        <div className="grid grid-cols-2 md:grid-cols-1 overflow-y-auto gap-4 rounded-lg px-4 pb-5 pt-4 bg-[#EEF2F5] h-full">
+                            <div className=' text-left sm:mb-3'>
                                 <div className='flex border border-gray-500 relative py-2'>
                                     <textarea
                                         onChange={(e) => setDescription(e.target.value)}
@@ -209,11 +210,11 @@ const OneCard = ({ task, closeModal }) => {
                                 {/* comments */}
                                 <div className='  mt-5 mb-3'>
                                     <h4 className='text-[#9C528B] mb-2'>Comments</h4>
-                                    <div className='w-full h-[120px] overflow-y-auto pb-2'>
+                                    <div className='w-full max-h-[100px] overflow-y-auto pb-2'>
                                         {commentList?.length > 0 && commentList?.map((one) =>
-                                        (<div className='flex capitalize text-sm' key={one.id}>
-                                            <p >{one.user_name}: </p>
-                                            <p className='pl-2  '>{one.comment}</p>
+                                        (<div className='block capitalize text-sm py-1 border-b' key={one.id}>
+                                            <p className='text-green-800'>{one.user_name}: </p>
+                                            <p className='pl-2 text-gray-500 '>{one.comment}</p>
                                         </div>)
                                         )}
                                     </div>
@@ -233,9 +234,9 @@ const OneCard = ({ task, closeModal }) => {
 
 
                                 </div>
-                            </Col>
+                            </div>
 
-                            <Col className='bg-[#EEF2F5]'>
+                            <div className='bg-[#EEF2F5]'>
 
 
                                 <div className='  font-normal  rounded-lg  bg-[#EEF2F5] '>
@@ -259,7 +260,7 @@ const OneCard = ({ task, closeModal }) => {
                                                 readOnly={!editableFields.max_members}
                                                 value={maxMembers}
                                             />
-                                            {!editableFields.max_members && <MdModeEdit color='red' className=' absolute right-4 m-auto top-0 bottom-0' onClick={() => makeEditable('max_members')} />}
+                                            {task && task?.column !== "3" && !editableFields.max_members && <MdModeEdit color='red' className=' absolute right-4 m-auto top-0 bottom-0' onClick={() => makeEditable('max_members')} />}
 
                                         </div>
 
@@ -321,10 +322,10 @@ const OneCard = ({ task, closeModal }) => {
 
                                         </>}
                                 </div>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     </form>
-                    <button className='bg-red-400 rounded-2xl m-1 px-2 py-1' onClick={() => handleDelete(task.id)}>Delete Card</button>
+                    <button className='bg-red-400 float-right mr-3 rounded-2xl my-2 px-2 py-1' onClick={() => handleDelete(task.id)}>Delete Card</button>
                     {/* <MdDelete
                         className='float-right'
                         title='Delete card'
