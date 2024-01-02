@@ -7,12 +7,10 @@ const loadingSlice = createSlice({
     initialState: initialstate.isLoading,
     reducers: {
         setLoading: (state, action) => {
-
             return action.payload
         },
     },
 })
-
 
 export const { setLoading } = loadingSlice.actions
 export default loadingSlice.reducer

@@ -1,19 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { initialstate } from "./rootstore";
-import { boardCreateAxios, getBoads } from "../Server/User/getallBoard";
+import { BoardCreateAxios, GetBoads } from "../Server/Board/getallBoard";
 
 
 // -----MIDDLEWARES---
 
 // create board
 export const createNewBoard = createAsyncThunk('user/createNewBoard', async ({ access, workspace, id, name, description, visibility }) => {
-    const res = await boardCreateAxios(access, workspace, id, name, description, visibility)
+    const res = await BoardCreateAxios(access, workspace, id, name, description, visibility)
     return res
 })
 
 // get all board
 export const getAllBoads = createAsyncThunk('user/getAllBoads', async ({ access, workspace }) => {
-    const res = await getBoads(access, workspace)
+    const res = await GetBoads(access, workspace)
     return res
 })
 

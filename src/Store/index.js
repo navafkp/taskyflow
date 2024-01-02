@@ -12,8 +12,6 @@ import columnsSlice from "./columnsSlice";
 import cardSlice from "./cardSlice";
 import MeetingSlice from "./MeetingSlice";
 
-
-
 const persistConfig = {
     key: 'root',
     storage,
@@ -30,7 +28,6 @@ const rootReducer = combineReducers({
     columns: columnsSlice,
     cardData: cardSlice,
     meetingData:MeetingSlice,
-
 });
 
 const persistRootReducer = persistReducer(persistConfig, rootReducer);

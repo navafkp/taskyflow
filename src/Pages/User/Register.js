@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { userSchema } from '../../utils/registerValidation';
 import { Success } from '../../Store/authSlice';
-import { userRegister } from '../../Server/User/userRegister';
+import { UserRegister } from '../../Server/User/userRegister';
 import { useDispatch } from 'react-redux';
 import { ValidationError } from 'yup';
 
@@ -34,7 +34,7 @@ const Register = () => {
         ) {
             try {
                 await userSchema.validate(formData)
-                const registrationResponse = await userRegister(
+                const registrationResponse = await UserRegister(
                     name, username, email, workspace, password, password2
                 )
                 if (registrationResponse.message === 'Your Account Registered Successfully') {
@@ -61,58 +61,76 @@ const Register = () => {
 
     return (
         <div >
-            <div className="h-screen bg-[#D7CDCC] flex flex-col items-center justify-center">
+            <div
+                className="h-screen bg-[#D7CDCC] flex flex-col items-center justify-center"
+            >
                 <div>
-                    <h1 className='m-8 font-extrabold text-4xl'>TASKYFLOW</h1>
+                    <h1
+                        className='m-8 font-extrabold text-4xl'>
+                        TASKYFLOW
+                    </h1>
                 </div>
-                <form className=" bg-black/30 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-4/12 
+                <form
+                    className=" bg-black/30 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-4/12 
                 sm:w-11/12 md:w-8/12 lg:w-6/12 "
                 >
                     <div className="mb-2">
                         <input
                             required value={name} onChange={(e) => setName(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
-                            leading-tight focus:outline-none focus:shadow-outline  mt-2" id="name" type="text"
+                            className="shadow appearance-none border rounded w-full 
+                            py-2 px-3 text-gray-700 
+                            leading-tight focus:outline-none 
+                            focus:shadow-outline  mt-2" id="name" type="text"
                             placeholder="name"
                         />
                     </div>
                     <div className="mb-2">
                         <input
                             value={username} onChange={(e) => setUsername(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
-                            leading-tight focus:outline-none focus:shadow-outline  mt-2" id="username"
+                            className="shadow appearance-none border rounded 
+                            w-full py-2 px-3 text-gray-700 
+                            leading-tight focus:outline-none 
+                            focus:shadow-outline  mt-2" id="username"
                             type="text" placeholder="username"
                         />
                     </div>
                     <div className="mb-2">
                         <input
                             value={email} onChange={(e) => setEmail(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
-                            leading-tight focus:outline-none focus:shadow-outline  mt-2" id="email" type="email"
+                            className="shadow appearance-none border 
+                            rounded w-full py-2 px-3 text-gray-700 
+                            leading-tight focus:outline-none 
+                            focus:shadow-outline  mt-2" id="email" type="email"
                             placeholder="email" required
                         />
                     </div>
                     <div className="mb-2">
                         <input
                             value={workspace} onChange={(e) => setWorkapce(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
-                            leading-tight focus:outline-none focus:shadow-outline  mt-2" id="workspace"
+                            className="shadow appearance-none border 
+                            rounded w-full py-2 px-3 text-gray-700 
+                            leading-tight focus:outline-none 
+                            focus:shadow-outline  mt-2" id="workspace"
                             type="text" placeholder="workspace"
                         />
                     </div>
                     <div className="mb-2">
                         <input
                             value={password} onChange={(e) => setPassword(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3
-                             leading-tight focus:outline-none focus:shadow-outline mt-2" id="password"
+                            className="shadow appearance-none border 
+                            rounded w-full py-2 px-3 text-gray-700 mb-3
+                             leading-tight focus:outline-none 
+                             focus:shadow-outline mt-2" id="password"
                             type="password" placeholder='password'
                         />
                     </div>
                     <div className="mb-2">
                         <input
                             value={password2} onChange={(e) => setPassword2(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
-                            mb-3 leading-tight focus:outline-none focus:shadow-outline mt-2"
+                            className="shadow appearance-none border 
+                            rounded w-full py-2 px-3 text-gray-700 
+                            mb-3 leading-tight focus:outline-none 
+                            focus:shadow-outline mt-2"
                             id="password2" type="password" placeholder='Confirm Password'
                         />
                     </div>
@@ -122,8 +140,10 @@ const Register = () => {
                     <div className="flex items-center justify-between">
                         <button
                             onClick={handleRegistrationSubmit}
-                            className="bg-[#9C528B]  text-white font-bold py-2 px-4 rounded 
-                            focus:outline-none focus:shadow-outline " type="button" >
+                            className="bg-[#9C528B]  text-white 
+                            font-bold py-2 px-4 rounded 
+                            focus:outline-none focus:shadow-outline "
+                            type="button" >
                             Regsiter
                         </button>
                         <p className='text-white'>Forgot Password?</p>

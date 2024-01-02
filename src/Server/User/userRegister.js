@@ -2,7 +2,7 @@ import axios from 'axios'
 const API = process.env.REACT_APP_BASE_URL;
 
 // axios call for registering new user
-export const userRegister = (
+export const UserRegister = (
     name, username, email, workspace, password,
     password2, role = 'manager', designation
 ) => {

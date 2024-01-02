@@ -2,7 +2,6 @@ import axios from 'axios'
 const API = process.env.REACT_APP_BASE_URL;
 
 export const GetalluserDetail = (access, work) => {
-
     return axios.get(`${API}/user/users-list/`,
         {
             params: {
@@ -18,6 +17,4 @@ export const GetalluserDetail = (access, work) => {
     }).catch((error) => {
         throw error;
     })
-
-
 }

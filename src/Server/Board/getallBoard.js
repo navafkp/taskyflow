@@ -1,7 +1,7 @@
 import axios from 'axios'
 const API = process.env.REACT_APP_BASE_URL;
 
-export const getBoads = (access, company) => {
+export const GetBoads = (access, company) => {
     return axios.get(`${API}/boards/`,
         {
             params: {
@@ -20,8 +20,7 @@ export const getBoads = (access, company) => {
 }
 
 // create board
-export const boardCreateAxios = (access, workspace, id, name, description, visibility) => {
-
+export const BoardCreateAxios = (access, workspace, id, name, description, visibility) => {
     const requestData = {
         workspace: workspace,
         user_id: id,
@@ -42,5 +41,4 @@ export const boardCreateAxios = (access, workspace, id, name, description, visib
     }).catch((error) => {
         return error
     })
-
 }

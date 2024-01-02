@@ -1,5 +1,4 @@
 import { GetAccess } from '../Store/authSlice';
-import { GetAccessAdmin } from '../Store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 const GetAccessToken = () => {
     const dispatch = useDispatch()
@@ -20,11 +19,6 @@ const GetAccessToken = () => {
                 dispatch(GetAccess({ refresh }))
                     .then(() => console.log("User token refreshed successfully"))
                     .catch(error => console.error("Error refreshing user token:", error));
-            } else if (type === 'admin') {
-                //    if admin logged in, get access for admin
-                dispatch(GetAccessAdmin({ refresh }))
-                    .then(() => console.log("Admin token refreshed successfully"))
-                    .catch(error => console.error("Error refreshing admin token:", error));
             }
         }
     }

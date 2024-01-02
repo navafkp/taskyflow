@@ -1,18 +1,17 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { Logout } from '../../Store/authSlice';
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Logout } from '../Store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearUser } from '../../Store/userdataSlice';
-// getting icon for hoem page from react icon
+import { clearUser } from '../Store/userdataSlice';
 import { FaUser } from "react-icons/fa";
 import { MdDashboard, MdOutlineSpaceDashboard } from "react-icons/md";
 import { IoNotificationsCircleOutline, IoLogOutOutline } from "react-icons/io5";
 import { BsCameraVideoFill } from "react-icons/bs";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CgMenuRound } from "react-icons/cg";
 
 const Header = () => {
-  const [showNav, setShowNav] = useState(false)
   const userData = useSelector(state => state.userData)
+  const [showNav, setShowNav] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -24,12 +23,18 @@ const Header = () => {
   }
 
   return (
-    <div className={`flex h-full  ${showNav && 'md:w-[100vw]  md:h-[100vh] md:bg-black/50 md:z-50 md:absolute'}`}>
-      
+    <div
+      className={`flex   ${showNav && 'md:w-[100vw]  md:h-[100vh] md:bg-black/50 md:z-50 md:absolute'}`}
+    >
+
       {/* Desktop */}
       <div className=' md:hidden'>
-        <div className='bg-[#1D1E2C] h-[100%] min-h-[100vh] pt-8 w-60 md:absolute md:z-10'>
-          <div className='text-[#9C528B] p-2 text-center text-2xl font-extrabold'>
+        <div
+          className='bg-[#1D1E2C] h-[100%] min-h-[100vh] pt-8 w-60 md:absolute md:z-10'
+        >
+          <div
+            className='text-[#b278a5]   p-2 text-center text-2xl font-extrabold'
+          >
             TASKYFLOW
           </div>
           <div className='flex flex-col  text-white my-menu'>
@@ -61,8 +66,13 @@ const Header = () => {
                 <FaUser />Profile</NavLink>
             </div>
             <div >
-              <span className='flex p-3 items-center gap-2' >
-                <IoLogOutOutline /> <button onClick={logoutUser}> Logout</button></span>
+              <span
+                className='flex p-3 items-center gap-2'
+              >
+                <IoLogOutOutline />
+                <button onClick={logoutUser}>
+                  Logout
+                </button></span>
             </div>
           </div>
         </div>
@@ -70,11 +80,17 @@ const Header = () => {
 
       {/* Mobile */}
       <div className='hidden md:block'>
-        <button onClick={() => setShowNav(!showNav)} className='absolute right-3 top-2' >
+        <button
+          onClick={() => setShowNav(!showNav)} className='absolute right-3 top-2'
+        >
           <CgMenuRound size={30} /></button>
         {showNav &&
-          <div className='bg-app-bg h-[100%] min-h-[100vh] pt-8 w-60 md:absolute md:z-10'>
-            <div className='text-app-blue p-3 font-extrabold'>
+          <div
+            className='bg-app-bg h-[100%] min-h-[100vh] pt-8 w-60 md:absolute md:z-10'
+          >
+            <div
+              className='text-app-blue p-3 font-extrabold'
+            >
               TASKYFLOW
             </div>
             <div className='flex flex-col my-menu'>
@@ -107,7 +123,11 @@ const Header = () => {
               </div>
               <div >
                 <span className='flex p-3 items-center gap-2' >
-                  <IoLogOutOutline /> <button onClick={logoutUser}> Logout</button></span>
+                  <IoLogOutOutline />
+                  <button onClick={logoutUser}>
+                    Logout
+                  </button>
+                </span>
               </div>
             </div>
           </div>

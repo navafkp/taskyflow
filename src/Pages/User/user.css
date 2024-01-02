@@ -8,6 +8,12 @@
     position: fixed;
 }
 
+.modal {
+    width: 20px;
+    height: 20px;
+
+}
+
 .overlay {
     background: rgba(49,49,49,0.8);
 }
@@ -20,7 +26,8 @@
     background: #ffffff;
     padding: 14px 28px;
     border-radius: 3px;
-    max-width: 600px;
-    min-width: 400px;
+    max-width: 400px;
+    min-width: 300px;
+  
 }
 

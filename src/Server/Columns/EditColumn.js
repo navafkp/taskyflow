@@ -1,10 +1,11 @@
 import axios from 'axios';
 const API = process.env.REACT_APP_BASE_URL;
 
-export const cardEditUpdate = (access, card_id, updatedData) => {
-    return axios.patch(`${API}/card/card-update/`, {
-        updatedData: updatedData,
-        cardId: card_id
+export const EditColumn = (access ,title,  columnid , boardId) => {
+    return axios.patch(`${API}/boards/columns/`, {
+        title: title,
+        position: columnid,
+        boardID: boardId
     },
         {
             headers: {
@@ -12,7 +13,6 @@ export const cardEditUpdate = (access, card_id, updatedData) => {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
-         
             return response.data
         }).catch((error) => {
             return error

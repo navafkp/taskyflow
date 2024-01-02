@@ -1,51 +1,50 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { initialstate } from "./rootstore";
-import { cardCreate, dragCardUpdate, getCards } from "../Server/User/getallCard";
-import { newComment } from "../Server/User/AddNewComment";
-import { getComments } from "../Server/User/GetComments";
-import { cardEditUpdate } from "../Server/User/CardEditUpdate";
-import { inviteAssignee } from "../Server/User/InviteNewAssignee";
+import { CardCreate, DragCardUpdate, GetCards } from "../Server/Card/getallCard";
+
+import { GetComments } from "../Server/Card/GetComments";
+import { CardEditUpdate } from "../Server/Card/CardEditUpdate";
+import { InviteAssignee } from "../Server/Card/InviteNewAssignee";
+import { NewComment } from "../Server/Card/AddNewComment";
 
 // -----MIDDLEWARES---
 
 // get all cards
 export const getAllCards = createAsyncThunk('user/getAllCards', async ({ access, board_slug }) => {
-    const response = await getCards(access, board_slug)
+    const response = await GetCards(access, board_slug)
     return response
 })
 
 // create a new card
-export const newCardCreate = createAsyncThunk('user/newCardCreate', async ({ access, id, title, description, maxNum, emails , selectedColor, priority}) => {
-    const response = await cardCreate(access, id, title, description, maxNum, emails, selectedColor, priority)
-    console.log(response, 'i am middlware')
+export const newCardCreate = createAsyncThunk('user/newCardCreate', async ({ access, id, title, description, maxNum, selectedEmails , selectedColor, priority}) => {
+    const response = await CardCreate(access, id, title, description, maxNum, selectedEmails, selectedColor, priority)
+   
     return response
 })
 
-
 // drag card update
 export const cardDragUpdate = createAsyncThunk('user/cardDragUpdate', async ({  droppableId, draggableId, access }) => {
-    const response = await dragCardUpdate( droppableId, draggableId, access)
-    console.log(response, 'middlatere0909090909090909')
+    const response = await DragCardUpdate( droppableId, draggableId, access)
     return response
 })
 
 
 // add comment
 export const addComment = createAsyncThunk('user/addComment', async ({ access, user_id,user_name, comment, card_id }) => {
-    const response = await newComment(access, user_id,user_name, comment, card_id)
+    const response = await NewComment(access, user_id,user_name, comment, card_id)
     return response
 })
 
 // get all comments
 export const getAllComment = createAsyncThunk('user/getAllComment', async ({ access, card_id }) => {
-    const response = await getComments(access, card_id)
+    const response = await GetComments(access, card_id)
     return response
 })
 
 
 // editable card data update
 export const cardEditableUpdate = createAsyncThunk('user/cardEditableUpdate', async ({ access, card_id, updatedData }) => {
-    const response = await cardEditUpdate(access, card_id, updatedData)
+    const response = await CardEditUpdate(access, card_id, updatedData)
     if (response.message === 'Card updated successfully') {
         updatedData.cardId = card_id
         return updatedData
@@ -56,8 +55,8 @@ export const cardEditableUpdate = createAsyncThunk('user/cardEditableUpdate', as
 })
 
 // invite member
-export const AssigneeInvite = createAsyncThunk('user/inviteMember', async ({ access, emails, card_id }) => {
-    const response = await inviteAssignee(access, emails, card_id)
+export const AssigneeInvite = createAsyncThunk('user/inviteMember', async ({ access, selectedEmails, card_id }) => {
+    const response = await InviteAssignee(access, selectedEmails, card_id)
     return response
 })
 
@@ -94,7 +93,6 @@ const cardSlice = createSlice({
                 )
             })
             .addCase(newCardCreate.fulfilled, (state, action) => {
-                // const lastAssignee = JSON.parse(action.payload.assignee);
                 state.cards = state.cards === null ? [action.payload.card] : [...state.cards, action.payload.card];
                 state.assignee = state.assignee === null ? [...action.payload.assignee] : [...state.assignee, ...action.payload.assignee];
             })
@@ -136,7 +134,7 @@ const cardSlice = createSlice({
             .addCase(cardDragUpdate.fulfilled, (state, action) => {
                 const cardID = action.payload.id
                 const updatedCardData = action.payload
-                console.log(action.payload, 'rooooooo')
+          
                 return (
                     {
                         ...state,

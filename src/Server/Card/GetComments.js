@@ -3,7 +3,7 @@ import axios from "axios";
 const API = process.env.REACT_APP_BASE_URL;
 
 // get all columns
-export const getComments = (access, card_id) => {
+export const GetComments = (access, card_id) => {
     return axios.get(`${API}/card/comment/`,
         {
             params: {

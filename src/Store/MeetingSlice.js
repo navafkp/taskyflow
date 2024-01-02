@@ -18,6 +18,9 @@ const MeetingSlice = createSlice({
             return (
                 [...state, action.payload]
             )
+        },
+        meetingDelete: (state, action) => {
+            return state?.filter((meeting) => meeting.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -26,8 +29,7 @@ const MeetingSlice = createSlice({
                 return action.payload
             })
     }
-
 })
 
-export const {updateMeetingData} = MeetingSlice.actions
+export const { updateMeetingData, meetingDelete } = MeetingSlice.actions
 export default MeetingSlice.reducer

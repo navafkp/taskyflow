@@ -4,7 +4,7 @@ import OneCard from './OneCard';
 
 const Card = ({ task, index }) => {
     const [showModal, setShowModal] = useState(false)
-    console.log(task, 'tasktasktasktasktasktask')
+
 
     return (
         <div>
@@ -23,7 +23,10 @@ const Card = ({ task, index }) => {
                             style={{ backgroundColor: task.color }}
                             // className={`h-32 ${task.color? `bg-${task.color}`: ''} uppercase rounded-xl px-4 py-7 text-sm m-3`}>
                             className={` h-32 uppercase rounded-xl px-4 py-7 text-sm m-3`}>
-                            <p className=' mb-3 w-fit bg-green-500 rounded-e-xl  lowercase px-1 text-sm font-thin  text-white '>{task.priority}</p>
+                            <p className=' mb-3 w-fit bg-green-500 rounded-e-xl 
+                             lowercase px-1 text-sm font-thin  text-white '>
+                                {task.priority}
+                            </p>
                             <h3>{task.title}</h3>
 
                             {new Date(task.created_at).toLocaleDateString()}

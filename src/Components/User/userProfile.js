@@ -10,13 +10,27 @@ const UserProfile = ({ user_id, closeModal }) => {
     })
 
     return (
-        <div className='absolute top-16 right-44 lg:right-24 xl:right-32 md:h-[80%] md:right-36 sm:right-10 bg-[#b278a5] rounded-2xl w-[60%] xl:w-[50%] sm:w-[80%]'>
+        <div 
+        className='absolute top-16 right-44 lg:right-24 xl:right-32 md:h-[80%] 
+        md:right-36 sm:right-10 bg-[#b278a5] rounded-2xl w-[60%] xl:w-[50%] sm:w-[80%]'
+        >
             <div className='p-4  capitalize w-full'>
-                <button className='bg-[#1D1E2C]  ml-auto text-white w-[20px] h-[20px] flex justify-center items-center align-middle  rounded-full' onClick={closeModal}>x</button>
+                <button className='bg-[#1D1E2C]  ml-auto text-white w-[20px] h-[20px] 
+                flex justify-center items-center align-middle  rounded-full' 
+                onClick={closeModal}>
+                    x
+                    </button>
                 <div>
-                    <h1 className='text-2xl  font-semibold text-left border-b mb-5 pb-3 border-gray-500'>{result?.name}</h1>
+                    <h1 
+                    className='text-2xl  font-semibold text-left border-b mb-5 pb-3
+                     border-gray-500'>
+                        {result?.name}
+                        </h1>
                 </div>
-                <div className='flex mx-auto box-border  py-8 max-h-max w-[80%] px-10 sm:px-0 rounded-lg '>
+                <div
+                 className='flex mx-auto box-border  py-8 max-h-max w-[80%] 
+                 px-10 sm:px-0 rounded-lg '
+                 >
                     <div className=' w-9/12 capitalize'>
 
                         <div className='flex space-x-3  p-2'>
@@ -44,8 +58,7 @@ const UserProfile = ({ user_id, closeModal }) => {
                             <h3 className=' font-semibold'>Workspace:</h3>
                             <p>{result?.workspace} </p>
                         </div>
-                        {/* <button className='bg-app-green text-black font-bold w-full my-5 rounded p-2'  >Save Changes</button><br></br> */}
-                        {/* <p className='text-green-600'> </p> */}
+                       
                     </div>
                 </div>
             </div>

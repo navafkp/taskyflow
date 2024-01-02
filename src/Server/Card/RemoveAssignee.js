@@ -1,10 +1,10 @@
 import axios from 'axios';
-
 const API = process.env.REACT_APP_BASE_URL;
 
-export const deleteBoard = (access, id) => {
+// remove assignees from card
+export const RemoveAssignee = (access, id) => {
     return axios.delete(
-        `${API}/board/delete/${id}/`,
+        `${API}/card/assignee/${id}/`,
         {
             headers: {
                 'Authorization': `Bearer ${access}`,
@@ -12,11 +12,8 @@ export const deleteBoard = (access, id) => {
             }
         }
     ).then((response) => {
-        console.log(response.data, '9898989898989898')
         return response.data
     }).catch((error) => {
         return error
     });
 };
-
-

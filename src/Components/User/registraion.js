@@ -1,31 +1,29 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { userRegister } from '../../Server/User/userRegister'
+import { UserRegister } from '../../Server/User/userRegister'
 import { Success } from '../../Store/authSlice'
-import { useNavigate } from 'react-router-dom'
 import { userSchema } from '../../utils/registerValidation'
 import { ValidationError } from 'yup'
 import { addNewUser } from '../../Store/userslistSlice'
 
 const Registraion = ({ closeModal }) => {
     const userData = useSelector(state => state.userData)
-
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-
     const [role, setRole] = useState('')
     const [password, setPassword] = useState('')
     const [password2, setPassword2] = useState('')
     const [error, setError] = useState('')
     const [designation, setDesignation] = useState('')
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
+    // setting role
     const handleRole = (e) => {
         setRole(e.target.value)
     }
 
+    // registration of member or manager by the manager after logged in his account
     const handleRegistrationSubmit = async (e) => {
         e.preventDefault();
         const formData = {
@@ -45,7 +43,7 @@ const Registraion = ({ closeModal }) => {
         ) {
             try {
                 await userSchema.validate(formData)
-                const registrationResponse = await userRegister(
+                const registrationResponse = await UserRegister(
                     name, username, email, userData?.workspace,
                     password, password2, role, designation
                 )
@@ -74,43 +72,78 @@ const Registraion = ({ closeModal }) => {
 
     return (
         <div>
-            <div className=' absolute !w-[100%]  bg-app-bg rounded-lg'>
-                <div className='overlay '>
-                    <div className='modal-content '>
-                        <button className='bg-[#1D1E2C]  ml-auto text-white w-[20px] h-[20px] flex justify-center items-center mt-4 rounded-full' onClick={closeModal}> x</button>
-                        <form className=" capitalize shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
-                            <p className='uppercase text-center'>Register new user</p>
+            <div
+                className=' absolute !w-[100%]  bg-app-bg rounded-lg'
+            >
+                <div
+                    className='overlay '
+                >
+                    <div
+                        className='modal-content '
+                    >
+                        <button
+                            className='bg-[#1D1E2C]  ml-auto text-white w-[20px] h-[20px] flex justify-center 
+                        items-center mt-4 rounded-full' onClick={closeModal}> x</button>
+                        <form
+                            className=" capitalize shadow-md rounded px-8 pt-2 pb-2 mb-3 w-full"
+                        >
+                            <p
+                                className='uppercase text-center'>
+                                Register new user
+                            </p>
 
-                            <div className="mb-2">
-                                <input value={name} onChange={(e) => setName(e.target.value)} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" id="name" type="text" placeholder="name" />
+                            <div className="mb-1">
+                                <input
+                                    value={name} onChange={(e) => setName(e.target.value)} required
+                                    className="shadow appearance-none border rounded w-full py-2 px-3
+                                 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  
+                                 mt-1" id="name" type="text" placeholder="name"
+                                />
                             </div>
-                            <div className="mb-2">
-                                <input value={username} onChange={(e) => setUsername(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" id="username" type="text" placeholder="username" />
+                            <div className="mb-1">
+                                <input
+                                    value={username} onChange={(e) => setUsername(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full
+                                 py-2 px-3 text-gray-700 leading-tight 
+                                focus:outline-none focus:shadow-outline  mt-1"
+                                    id="username" type="text" placeholder="username"
+                                />
                             </div>
-                            <div className="mb-2">
-                                <input value={email} onChange={(e) => setEmail(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" id="email" type="email" placeholder="email" required />
+                            <div className="mb-1">
+                                <input
+                                    value={email} onChange={(e) => setEmail(e.target.value)}
+                                    className="shadow appearance-none border rounded 
+                                w-full py-2 px-3 text-gray-700 
+                                leading-tight focus:outline-none focus:shadow-outline  mt-1"
+                                    id="email" type="email" placeholder="email" required
+                                />
                             </div>
 
-                            <div className="mb-2">
-                                <input value={designation} onChange={(e) => setDesignation(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  mt-2" id="designation" type="text" placeholder="designation" required />
+                            <div className="mb-1">
+                                <input
+                                    value={designation} onChange={(e) => setDesignation(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 
+                                leading-tight focus:outline-none focus:shadow-outline  mt-1"
+                                    id="designation" type="text" placeholder="designation" required
+                                />
                             </div>
 
 
-                            <div className="my-4 flex ">
+                            <div className="my-1 flex ">
                                 <h3 className='font-bold round p-2'>Workspace: </h3>
                                 <p className='p-2  text-gray-400  font-medium rounded-sm'>{userData?.workspace}</p>
 
                             </div>
 
 
-                            <div className="mb-2 pb-2">
+                            <div className="mb-1 pb-1">
                                 <p className='font-bold '>Choose the Role of user</p>
 
                                 <input id="member" name="role" type="radio" value="member"
                                     checked={role === 'member'}
                                     onChange={handleRole}
                                 />
-                                <label className='pr-4 text-black' >Member</label>
+                                <label className='p-1 text-black' >Member</label>
 
                                 <input id='manager' name="role" type='radio' value="manager"
                                     checked={role === 'manager'}
@@ -119,18 +152,33 @@ const Registraion = ({ closeModal }) => {
                                 <label className=' text-black' >Manager</label>
                             </div>
 
-                            <div className="mb-2">
-                                <input value={password} onChange={(e) => setPassword(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline mt-2" id="password" type="password" placeholder='password' />
+                            <div className="mb-1">
+                                <input value={password} onChange={(e) => setPassword(e.target.value)}
+                                    className="shadow appearance-none border rounded w-full py-2 
+                                px-3 text-gray-700 mb-3 leading-tight 
+                                focus:outline-none focus:shadow-outline mt-1"
+                                    id="password" type="password" placeholder='password'
+                                />
                             </div>
 
-                            <div className="mb-2">
-                                <input value={password2} onChange={(e) => setPassword2(e.target.value)} className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline mt-2" id="password2" type="password" placeholder='Confirm Password' />
+                            <div className="mb-1">
+                                <input
+                                    value={password2} onChange={(e) => setPassword2(e.target.value)}
+                                    className="shadow appearance-none border  
+                                rounded w-full py-2 px-3 text-gray-700 mb-3 
+                                leading-tight focus:outline-none 
+                                focus:shadow-outline mt-1"
+                                    id="password2" type="password" placeholder='Confirm Password'
+                                />
                             </div>
-                            <div className="mb-2">
+                            <div className="mb-1">
                                 <p className='text-[#952e2e]'></p>
                             </div>
                             <div className="flex items-center justify-between">
-                                <button onClick={handleRegistrationSubmit} className=" bg-[#b278a5]  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline " type="button" >
+                                <button onClick={handleRegistrationSubmit}
+                                    className=" bg-[#b278a5]  text-white font-bold py-2 px-4 rounded 
+                                focus:outline-none focus:shadow-outline " type="button"
+                                >
                                     Regsiter
                                 </button>
                             </div>

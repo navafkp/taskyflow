@@ -11,9 +11,7 @@ export const initialstate = {
     userData: null,
     // user-manager collect and store all user data here
     users: [],
-
     isLoading: false,
-
     allboards: [],
     columns: [],
 
@@ -22,15 +20,11 @@ export const initialstate = {
         broadcast: [],
         personal: [],
     },
-
     //  cards and assignee data
     cardData: {
         cards: [],
         assignee: [],
         comments: [],
-
     },
-
     meetingData: [],
-
 }

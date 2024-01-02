@@ -1,10 +1,10 @@
-import axios from 'axios'
+import axios from 'axios';
+
 const API = process.env.REACT_APP_BASE_URL;
 
-export const BlockUser = (id, value, access) => {
-    return axios.patch(
-        `${API}/user/action/${id}/`,
-        value,
+export const DeleteBoard = (access, id) => {
+    return axios.delete(
+        `${API}/board/delete/${id}/`,
         {
             headers: {
                 'Authorization': `Bearer ${access}`,
@@ -13,9 +13,9 @@ export const BlockUser = (id, value, access) => {
         }
     ).then((response) => {
         return response.data
-
     }).catch((error) => {
-        throw error
+        return error
+    });
+};
 
-    })
-}
+

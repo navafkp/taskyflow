@@ -2,7 +2,7 @@ import axios from "axios";
 const API = process.env.REACT_APP_BASE_URL;
 
 // get all columns
-export const getCloumns = (access, board_slug) => {
+export const GetColumns = (access, board_slug) => {
     return axios.get(`${API}/boards/columns/`,
         {
             params: {

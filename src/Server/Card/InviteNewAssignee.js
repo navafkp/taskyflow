@@ -1,10 +1,15 @@
-import axios from 'axios';
+
+import axios from 'axios'
 const API = process.env.REACT_APP_BASE_URL;
 
-// remove assignees from card
-export const removeAssignee = (access, id) => {
-    return axios.delete(
-        `${API}/card/assignee/${id}/`,
+
+export const InviteAssignee = (access, selectedEmails, card_id) => {
+    const requestData = {
+        card_id: card_id,
+        selectedEmails: selectedEmails
+    };
+    return axios.post(`${API}/card/assignee/invite/`,
+        requestData,
         {
             headers: {
                 'Authorization': `Bearer ${access}`,
@@ -15,5 +20,6 @@ export const removeAssignee = (access, id) => {
         return response.data
     }).catch((error) => {
         return error
-    });
-};
+    })
+
+}

@@ -2,7 +2,7 @@ import axios from 'axios'
 const API = process.env.REACT_APP_BASE_URL;
 
 // get all notification
-export const gettingBroadcastNotification = (access, work) => {
+export const GettingBroadcastNotification = (access, work) => {
     return axios.get(`${API}/user/notification/`,
         {
             params: {
